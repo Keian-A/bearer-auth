@@ -8,15 +8,13 @@ let userInfo = {
 };
 
 // Pre-load our database with fake users
-beforeAll(async (done) => {
+beforeAll(async () => {
   await db.sync();
   await users.create(userInfo.admin);
-  done();
 });
-afterAll(async (done) => {
+afterAll(async () => {
   await db.drop();
-  done();
-})
+});
 
 describe('Auth Middleware', () => {
 
@@ -27,8 +25,8 @@ describe('Auth Middleware', () => {
   const req = {};
   const res = {
     status: jest.fn(() => res),
-    send: jest.fn(() => res)
-  }
+    send: jest.fn(() => res),
+  };
   const next = jest.fn();
 
   describe('user authentication', () => {
@@ -37,7 +35,7 @@ describe('Auth Middleware', () => {
 
       // Change the request to match this test case
       req.headers = {
-        authorization: 'Basic YWRtaW46Zm9v',
+        authorization: 'Basic aGVsbG9Xb3JsZA==',
       };
 
       return middleware(req, res, next)
